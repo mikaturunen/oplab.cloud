@@ -3,3 +3,4 @@ description: ''
 show_downloads: true
 google_analytics: UA-113767717-1
 theme: jekyll-theme-minimal
+baseurl: /oplab.cloud
