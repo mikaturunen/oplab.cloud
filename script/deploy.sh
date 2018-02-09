@@ -34,6 +34,8 @@ rm -rf gh-pages/**/* || exit 0
 
 # Run our compile script
 doCompile
+# move files from generated _site/ into gh-pages and push them
+mv _site/* gh-pages
 
 # Now let's go have some fun with the cloned repo
 cd gh-pages
