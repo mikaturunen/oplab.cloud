@@ -8,11 +8,7 @@ TARGET_DIR='out'
 function doCompile {
   gem install bundler
   bundle install
-
   bundle exec jekyll build
-  gem build jekyll-theme-minimal.gemspec
-
-  ls -la .
 }
 
 # Pull requests and commits to other branches shouldn't try to deploy, just build to verify
@@ -27,8 +23,8 @@ REPO=`git config remote.origin.url`
 SSH_REPO=${REPO/https:\/\/github.com\//git@github.com:}
 SHA=`git rev-parse --verify HEAD`
 
-echo 'Listing current directory before gh-pages git clone.'
-ls -la .
+echo '1. Listing current directory before gh-pages git clone.'
+ls . | wc -l
 
 # Clone the existing gh-pages for this repo into gh-pages/
 # Create a new empty branch if gh-pages doesn't exist yet (should only happen on first deply)
@@ -38,25 +34,25 @@ cd $TARGET_DIR
 git checkout $TARGET_BRANCH || git checkout --orphan $TARGET_BRANCH
 cd ..
 
-echo 'Listing current directory.'
-ls -la .
+echo '2. Listing current directory.'
+ls . | wc -l
 
 # Clean out existing contents
-echo 'Emptying ${TARGET_DIR} directory of existing content.'
-rm -rf $TARGET_DIR/**/* || exit 0
-ls -la $TARGET_DIR
+echo '3. Emptying $TARGET_DIR directory of existing content.'
+rm -rf $TARGET_DIR
+ls $TARGET_DIR | wc -l
 
-echo 'Compiling jekyll project into _site that we can use to fill gh-pages directory.'
+echo '4. Compiling jekyll project into _site that we can use to fill gh-pages directory.'
 # Run our compile script
 doCompile
 
-echo 'Listing current directory.'
-ls -la .
+echo 'Count in current directory'
+ls . | wc -l
 
-echo 'Moving files from _site/ to gh-pages/'
+echo '5. Moving files from _site/ to gh-pages/'
 # move files from generated _site/ into gh-pages and push them
 mv _site/* $TARGET_DIR
-ls -la $TARGET_DIR
+ls $TARGET_DIR | wc -l
 
 # Now let's go have some fun with the cloned repo
 cd $TARGET_DIR
