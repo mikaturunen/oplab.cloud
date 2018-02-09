@@ -31,6 +31,7 @@ cd ..
 
 # Clean out existing contents
 rm -rf gh-pages/**/* || exit 0
+ls -la gh-pages
 
 # Run our compile script
 doCompile
