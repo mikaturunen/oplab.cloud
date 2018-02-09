@@ -4,6 +4,7 @@ layout: default
 
 # Future events
 
+* xx.03.2018 &#124; Case example: IOPS Meltdown &#124; No specific agenda &#124; Skype
 * 13.03.2018 &#124; AWS Serverless Immersion Day &#124; [Agenda](aws-serverless-immersion-day) &#124; Oulu
 
 # Potential events
