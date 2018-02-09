@@ -5,8 +5,8 @@ SOURCE_BRANCH="master"
 TARGET_BRANCH="gh-pages"
 
 function doCompile {
-  ./scripts/bootstrap
-  ./scripts/cibuild
+  ./script/bootstrap
+  ./script/cibuild
   ls -la _site/
 }
 
