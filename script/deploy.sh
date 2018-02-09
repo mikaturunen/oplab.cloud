@@ -6,8 +6,12 @@ TARGET_BRANCH="gh-pages"
 TARGET_DIR='out'
 
 function doCompile {
-  source ./script/bootstrap
-  source ./script/cibuild
+  gem install bundler
+  bundle install
+
+  bundle exec jekyll build
+  gem build jekyll-theme-minimal.gemspec
+
   ls -la .
 }
 
