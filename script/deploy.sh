@@ -5,7 +5,9 @@ SOURCE_BRANCH="master"
 TARGET_BRANCH="gh-pages"
 
 function doCompile {
-  ./compile.sh
+  ./scripts/bootstrap
+  ./scripts/cibuild
+  ls -la _site/
 }
 
 # Pull requests and commits to other branches shouldn't try to deploy, just build to verify
@@ -31,8 +33,7 @@ cd ..
 rm -rf gh-pages/**/* || exit 0
 
 # Run our compile script
-./script/bootstrap
-./script/cibuild
+doCompile
 
 # Now let's go have some fun with the cloned repo
 cd gh-pages
