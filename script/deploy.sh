@@ -39,7 +39,7 @@ ls . | wc -l
 
 # Clean out existing contents
 echo '3. Emptying $TARGET_DIR directory of existing content.'
-rm -rf $TARGET_DIR
+rm -rf $TARGET_DIR/**/*
 ls $TARGET_DIR | wc -l
 
 echo '4. Compiling jekyll project into _site that we can use to fill gh-pages directory.'
