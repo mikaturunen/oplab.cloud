@@ -12,7 +12,11 @@ function doCompile {
 }
 
 # Pull requests and commits to other branches shouldn't try to deploy, just build to verify
-
+if [ "$TRAVIS_PULL_REQUEST" != "false" -o "$TRAVIS_BRANCH" != "$SOURCE_BRANCH" ]; then
+    echo "Skipping deployment, just doing a build."
+    doCompile
+    exit 0
+fi
 
 # Save some useful information
 REPO=`git config remote.origin.url`
@@ -56,7 +60,8 @@ pwd
 # move files from generated _site/ into gh-pages and push them
 rm -r $TARGET_DIR/assets
 rm -r $TARGET_DIR/script
-mv _site/out/* $TARGET_DIR
+rm -r _site/out
+mv _site/* $TARGET_DIR
 
 ls $TARGET_DIR | wc -l
 
@@ -74,7 +79,7 @@ fi
 
 echo 'All is well, commiting!'
 pwd
-
+exit 1
 # Commit the "changes", i.e. the new version.
 # The delta will show diffs between new and old versions.
 git add -A .
