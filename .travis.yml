@@ -1,0 +1,10 @@
+# don't install any environment
+language: ruby
+rvm:
+- 2.3.3
+
+script: bash ./script/deploy.sh
+env:
+  global:
+  - ENCRYPTION_LABEL: "191f305dc87b"
+  - COMMIT_AUTHOR_EMAIL: "mika.turunen@ymail.com"
