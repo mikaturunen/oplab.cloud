@@ -79,7 +79,7 @@ fi
 
 echo 'All is well, commiting!'
 pwd
-exit 1
+
 # Commit the "changes", i.e. the new version.
 # The delta will show diffs between new and old versions.
 git add -A .
