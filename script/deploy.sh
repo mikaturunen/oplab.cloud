@@ -12,11 +12,7 @@ function doCompile {
 }
 
 # Pull requests and commits to other branches shouldn't try to deploy, just build to verify
-if [ "$TRAVIS_PULL_REQUEST" != "false" -o "$TRAVIS_BRANCH" != "$SOURCE_BRANCH" ]; then
-    echo "Skipping deployment, just doing a build."
-    doCompile
-    exit 0
-fi
+
 
 # Save some useful information
 REPO=`git config remote.origin.url`
@@ -29,34 +25,44 @@ ls . | wc -l
 # Clone the existing gh-pages for this repo into gh-pages/
 # Create a new empty branch if gh-pages doesn't exist yet (should only happen on first deply)
 echo 'Cloning gh-pages branch from repo'
+pwd
+
 git clone $REPO $TARGET_DIR
 cd $TARGET_DIR
+pwd
 git checkout $TARGET_BRANCH || git checkout --orphan $TARGET_BRANCH
 cd ..
 
 echo '2. Listing current directory.'
+pwd
 ls . | wc -l
 
 # Clean out existing contents
 echo '3. Emptying $TARGET_DIR directory of existing content.'
+pwd
 ls $TARGET_DIR | wc -l
 
 echo '4. Compiling jekyll project into _site that we can use to fill gh-pages directory.'
+pwd
 # Run our compile script
 doCompile
 
 echo 'Count in current directory'
+pwd
 ls . | wc -l
 
 echo '5. Moving files from _site/ to gh-pages/'
+pwd
 # move files from generated _site/ into gh-pages and push them
 rm -r $TARGET_DIR/assets
 rm -r $TARGET_DIR/script
-mv _site/* $TARGET_DIR
+mv _site/out/* $TARGET_DIR
+
 ls $TARGET_DIR | wc -l
 
 # Now let's go have some fun with the cloned repo
 cd $TARGET_DIR
+pwd
 git config user.name "Travis CI"
 git config user.email "$COMMIT_AUTHOR_EMAIL"
 
@@ -67,6 +73,7 @@ if git diff --quiet; then
 fi
 
 echo 'All is well, commiting!'
+pwd
 
 # Commit the "changes", i.e. the new version.
 # The delta will show diffs between new and old versions.
