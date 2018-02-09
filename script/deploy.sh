@@ -6,9 +6,9 @@ TARGET_BRANCH="gh-pages"
 TARGET_DIR='out'
 
 function doCompile {
-  ./script/bootstrap
-  ./script/cibuild
-  ls -la _site/
+  source ./script/bootstrap
+  source ./script/cibuild
+  ls -la .
 }
 
 # Pull requests and commits to other branches shouldn't try to deploy, just build to verify
@@ -64,6 +64,8 @@ if git diff --quiet; then
     echo "No changes to the output on this push, exiting."
     exit 0
 fi
+
+exit 1
 
 # Commit the "changes", i.e. the new version.
 # The delta will show diffs between new and old versions.
