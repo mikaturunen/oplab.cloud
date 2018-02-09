@@ -3,6 +3,7 @@ set -e # Exit with nonzero exit code if anything fails
 
 SOURCE_BRANCH="master"
 TARGET_BRANCH="gh-pages"
+TARGET_DIR='out'
 
 function doCompile {
   ./script/bootstrap
@@ -22,25 +23,39 @@ REPO=`git config remote.origin.url`
 SSH_REPO=${REPO/https:\/\/github.com\//git@github.com:}
 SHA=`git rev-parse --verify HEAD`
 
+echo 'Listing current directory before gh-pages git clone.'
+ls -la .
+
 # Clone the existing gh-pages for this repo into gh-pages/
 # Create a new empty branch if gh-pages doesn't exist yet (should only happen on first deply)
-git clone $REPO gh-pages
-cd gh-pages
+echo 'Cloning gh-pages branch from repo'
+git clone $REPO $TARGET_DIR
+cd $TARGET_DIR
 git checkout $TARGET_BRANCH || git checkout --orphan $TARGET_BRANCH
 cd ..
 
-# Clean out existing contents
-rm -rf gh-pages/**/* || exit 0
-ls -la gh-pages
+echo 'Listing current directory.'
+ls -la .
 
+# Clean out existing contents
+echo 'Emptying ${TARGET_DIR} directory of existing content.'
+rm -rf $TARGET_DIR/**/* || exit 0
+ls -la $TARGET_DIR
+
+echo 'Compiling jekyll project into _site that we can use to fill gh-pages directory.'
 # Run our compile script
 doCompile
+
+echo 'Listing current directory.'
+ls -la .
+
+echo 'Moving files from _site/ to gh-pages/'
 # move files from generated _site/ into gh-pages and push them
-mv _site/* gh-pages
-ls -la gh-pages
+mv _site/* $TARGET_DIR
+ls -la $TARGET_DIR
 
 # Now let's go have some fun with the cloned repo
-cd gh-pages
+cd $TARGET_DIR
 git config user.name "Travis CI"
 git config user.email "$COMMIT_AUTHOR_EMAIL"
 
