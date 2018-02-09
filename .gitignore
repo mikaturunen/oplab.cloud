@@ -4,3 +4,4 @@ Gemfile.lock
 *.gem
 deploy_key
 deploy_key.pub
+out

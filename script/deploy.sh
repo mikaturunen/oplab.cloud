@@ -39,7 +39,6 @@ ls . | wc -l
 
 # Clean out existing contents
 echo '3. Emptying $TARGET_DIR directory of existing content.'
-rm -rf $TARGET_DIR/**/*
 ls $TARGET_DIR | wc -l
 
 echo '4. Compiling jekyll project into _site that we can use to fill gh-pages directory.'
@@ -51,6 +50,8 @@ ls . | wc -l
 
 echo '5. Moving files from _site/ to gh-pages/'
 # move files from generated _site/ into gh-pages and push them
+rm -r $TARGET_DIR/assets
+rm -r $TARGET_DIR/script
 mv _site/* $TARGET_DIR
 ls $TARGET_DIR | wc -l
 
@@ -65,7 +66,7 @@ if git diff --quiet; then
     exit 0
 fi
 
-exit 1
+echo 'All is well, commiting!'
 
 # Commit the "changes", i.e. the new version.
 # The delta will show diffs between new and old versions.
